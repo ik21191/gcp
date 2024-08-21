@@ -1,0 +1,12 @@
+#To specify Node.js 20 on Ubuntu 22:
+runtime: nodejs
+env: flex
+
+runtime_config:
+  operating_system: "ubuntu22"
+  runtime_version: "20"
+network:
+  name: default
+  subnetwork_name: default
+manual_scaling:
+  instances: 1
