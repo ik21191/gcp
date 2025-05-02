@@ -3,4 +3,4 @@ services:
    web:
       image: imrankhanin3/my-apache2:1.0.0
       ports:
-         - "80:80"
+         - "9999:80"

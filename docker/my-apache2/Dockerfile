@@ -1,5 +1,7 @@
-FROM httpd:2.4
+FROM php:7.1.23-apache
 
 EXPOSE 80
  
-COPY ./my-static-site/ /usr/local/apache2/htdocs/
+COPY ./my-static-site/ /var/www/html
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
