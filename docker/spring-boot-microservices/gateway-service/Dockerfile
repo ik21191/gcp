@@ -1,0 +1,14 @@
+FROM eclipse-temurin:17-alpine
+
+#Installing curl command
+RUN apk add --update curl
+RUN rm -rf /var/cache/apk/*
+
+RUN mkdir /opt/app
+
+ADD gateway-service.jar /opt/app/gateway-service.jar
+
+#Below command will change your current directory to /opt/app
+WORKDIR /opt/app
+
+ENTRYPOINT [ "java", "-jar", "gateway-service.jar" ]
