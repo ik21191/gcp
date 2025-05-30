@@ -30,7 +30,7 @@ then
     export TOKEN=$(cat token)
     
     #Configure kubeconfig file
-    curl https://raw.githubusercontent.com/shamimice03/Kubernetes/main/Security/sa-kubeconfig-template.yaml | sed "s#<context>#${CONTEXT}# ;
+    cat ../sa-kubeconfig-template.yaml | sed "s#<context>#${CONTEXT}# ;
     s#<cluster-name>#${CONTEXT}# ;
     s#<ca.crt>#${CA_CRT}# ;
     s#<cluster-endpoint>#${CLUSTER_ENDPOINT}# ;
