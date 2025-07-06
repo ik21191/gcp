@@ -3,16 +3,18 @@ kind: Deployment
 metadata:
   name: spring-rest-deployment
   labels:
-    app: spring-rest-app
+  #It is used for filteration. In case you have multiple deployment then you can use below command
+  #kubectl get deploy -l app=spring-rest-app
+    app: spring-rest-app 
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: spring-rest
-  template:
+  template:   #It is a pod template that is used to create Pod with lable: spring-rest
     metadata:
       labels:
-        app: spring-rest
+        app: spring-rest  #It should be match with matchLabels:app in selector
     spec:
       containers:
       - name: spring-rest-container

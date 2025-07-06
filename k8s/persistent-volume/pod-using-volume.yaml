@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-pod
+spec:
+  containers:
+    - name: pvc-pod-container
+      image: nginx:latest
+      volumeMounts:
+        - name: data
+          mountPath: /data #Path in container
+        - name: host-volume
+          mountPath: /my-data #Path in the container.
+  volumes:
+    - name: data
+      emptyDir: {}  #This volume will be created on node's filesystem and valid till the Pod's lifecycle. It will be delete once the Pod is deleted.
+    - name: host-volume
+      hostPath:
+        path: /etc #This will remain on the Node's filesystem and will not be deleted when you delete the Pod. So, once you create the pod again then the Pod will continue to use this storage.

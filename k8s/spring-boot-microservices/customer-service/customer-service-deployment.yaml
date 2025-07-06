@@ -22,3 +22,20 @@ spec:
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://host.docker.internal:8761/eureka/
+      serviceAccountName: jenkins-admin
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+  labels:
+    app: customer-service-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001
+  selector:
+    app: customer-service

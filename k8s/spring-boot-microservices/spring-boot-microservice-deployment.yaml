@@ -22,7 +22,8 @@ spec:
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://host.docker.internal:8761/eureka/
-        
+      #serviceAccountName: jenkins-admin
+      
 ---
 
 apiVersion: apps/v1
@@ -49,7 +50,9 @@ spec:
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://host.docker.internal:8761/eureka/
-        
+        - name: LOGGING_LEVEL_ROOT
+          value: INFO
+      #serviceAccountName: jenkins-admin  
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -75,7 +78,8 @@ spec:
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://host.docker.internal:8761/eureka/
-        
+      #serviceAccountName: jenkins-admin
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -101,3 +105,68 @@ spec:
         env:
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           value: http://host.docker.internal:8761/eureka/
+      #serviceAccountName: jenkins-admin
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-service
+  labels:
+    app: discovery-service-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8761
+    targetPort: 8761
+  selector:
+    app: discovery-service
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  labels:
+    app: gateway-service-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: gateway-service
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+  labels:
+    app: customer-service-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001
+  selector:
+    app: customer-service
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  labels:
+    app: order-service-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3002
+    targetPort: 3002
+  selector:
+    app: order-service      
