@@ -1,0 +1,9 @@
+version: '3'
+services:
+  prometheus_demo:
+    build: .
+    ports:
+      - "9100:9100"
+      - "9090:9090"
+      - "3000:3000"
+      - "9093:9093"

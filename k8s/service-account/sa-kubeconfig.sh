@@ -19,7 +19,7 @@ then
     kubectl config view --raw -o jsonpath='{..cluster.certificate-authority-data}' | base64 --decode > ca.crt
     
     #Generate TOKEN for the Service Account 
-    kubectl create token $SA_NAME --duration=60000s > token 
+    kubectl create token $SA_NAME --duration=1867h > token 
    
     #Set ENV
     export CA_CRT=$(cat ca.crt | base64 -w 0)
