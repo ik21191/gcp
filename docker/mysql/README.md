@@ -5,7 +5,7 @@
 docker-compose up -d
 ```
 
-**Note:-** Do not above command again, instead use below commands to `stop` and `start`.
+**Note:-** Do not use above command again, instead use below commands to `stop` and `start`.
 
 **Stop:** Run `docker-compose stop`
 
