@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-collector
+spec:
+  selector:
+    matchLabels:
+      app: log-collector
+  template:
+    metadata:
+      labels:
+        app: log-collector
+    spec:
+      containers:
+      - name: log-collector
+        image: busybox
+        command: ["/bin/sh", "-c", "while true; do find /var/log/pods -name '*.log' -print0 | xargs -0 cat >> /logs/all-pods.log; sleep 5; done"]
+        volumeMounts:
+        - name: all-logs
+          mountPath: /logs
+        - name: var-log
+          mountPath: /var/log/pods
+        - name: var-containers
+          mountPath: /var/lib/docker/containers
+      - name: spring-rest-container
+        image: imrankhanin3/spring-rest:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - name: spring-logs
+            mountPath: /temp/logs
+        env:
+        - name: DEPLOYED_PLATFORM
+          value: Kubernate Cluster
+      volumes:
+      - name: all-logs
+        hostPath:
+          path: /logs
+      - name: var-log
+        hostPath:
+          path: /var/log/pods
+      - name: var-containers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: spring-logs
+        hostPath:
+          path: /tmp/my-spring-logs
+          
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-rest-service
+  labels:
+    app: spring-rest-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9999
+    targetPort: 8080
+  selector:
+    app: log-collector
