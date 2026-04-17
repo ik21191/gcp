@@ -12,7 +12,7 @@ docker-compose up -d
 **Start:** Run `docker-compose start`
 
 ### Essential Operations
-If you started your container with `MONGO_INITDB_ROOT_USERNAME` and `MONGO_INITDB_ROOT_PASSWORD`, MongoDB automatically enables authentication. 
+If you have started your container with `MONGO_INITDB_ROOT_USERNAME` and `MONGO_INITDB_ROOT_PASSWORD`, MongoDB automatically enables authentication. 
 
 - Connect `mongosh` by passing these environment variables in your connection command:
 
@@ -21,7 +21,7 @@ docker exec -it my_mongodb mongosh -u admin -p 12345678
 
 or [in case above command doesn't work.]
 
-ocker exec -it my_mongodb mongosh -u admin -p 12345678 --authenticationDatabase admin
+docker exec -it my_mongodb mongosh -u admin -p 12345678 --authenticationDatabase admin
 ```
 - Now create new user for your use by using below commands.
 
