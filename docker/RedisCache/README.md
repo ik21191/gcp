@@ -36,3 +36,5 @@ docker-compose exec cache redis-cli -a mypass@321
 **Set key** `SET testkey "Hello, Redis!"`
 
 **Get key** `GET testkey`
+
+**Get all keys** `keys *`
