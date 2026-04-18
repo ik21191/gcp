@@ -12,69 +12,27 @@ docker-compose up -d
 **Start:** Run `docker-compose start`
 
 ### Essential Operations
-If you started your container with `MONGO_INITDB_ROOT_USERNAME` and `MONGO_INITDB_ROOT_PASSWORD`, MongoDB automatically enables authentication. 
+**services:** Defines the services that make up your app. Here, we're defining a service named cache. You would also add other services here, like a database, a web server, etc.
 
-- Connect `mongosh` by passing these environment variables in your connection command:
+**image:** Tells Docker Compose to use the `Redis 7.4` image based on Alpine Linux.
 
-```
-docker exec -it my_mongodb mongosh -u admin -p 12345678
+**restart:** Set to always, which means the container will restart if it stops or crashes.
 
-or [in case above command doesn't work.]
+**ports:** Maps port `6379` on your local machine to port `6379` in the container, allowing you to connect to `Redis` from your host machine.
 
-ocker exec -it my_mongodb mongosh -u admin -p 12345678 --authenticationDatabase admin
-```
-- Now create new user for your use by using below commands.
+**command:** Customizes the Redis server command. `--save 20 1` tells Redis to save the database every 20 seconds if at least one change was made. 
+`--loglevel` warning sets the logging to show only warnings. `--requirepass` yourpassword sets a password for Redis, which is a basic security measure. Replace yourpassword with a strong password.
 
-```
-use admin;
-db.createUser({user: "testuser",pwd: "mypass123",roles: [{ role: "root", db: "admin" }]});
+**volumes:** Configures a volume named cache and maps it to `/data` inside the container. This ensures that data is persisted even if the container is deleted or recreated.
 
-#use below command to check if above user created
-show users; #You must be in the admin database.
-```
-
-- Now you can access mongo shell using `testuser` using below command.
+### Verify Redis is Running
+Use below command to enter Redis CLI
 
 ```
-docker exec -it my_mongodb mongosh -u testuser -p mypass123
+docker-compose exec cache redis-cli -a mypass@321
 ```
 
-- Some useful commands
-    - **Check version** `db.version();`
-    - **List all databases** `show databases;`
-        or `show dbs;`
-    - **List all the collections** `show collections;`
-    - **Create new MongoDB database** `use mydb`
-    - **Create a MongoDB document and add a record to it.** 
-	    `db.employee.insertOne({name:"Vinay Kumar",email:"vinay@gmail.com"});  //Where db refers to the current database.`
+### Some userful commands
+**Set key** `SET testkey "Hello, Redis!"`
 
-    - **List the records of employee documents.**
-        
-        `db.employee.find();  or db.employee.find({});`
-    - **Use cases of find() method**
-
-        `db.Book.find({bookName : "BCom"})                                     // with exact match`
-
-        `db.Book.find({bookName : {$regex: "Com"}})                            //Partial exact match`
-
-        `db.Book.find({bookName : {$regex: "com", $options : "i"}})            //partial case-insensitive`
-    - **To delete a record**
-    
-        `db.Book.deleteOne({bookName : "BCom"});  		// To delete one record`
-        `db.Book.deleteMany({authorName : "Imran"}); 		// To delete multiple record`
-        `db.Book.deleteMany({});					// To delete all records` 
-
-**Persist Data:** Always map a volume to `/data/db` inside the container. Without this, your data is lost when the container is deleted.
-
-**External Connection:** Connect from your host machine or tools like `MongoDB Compass` using the connection string: `mongodb://testuser:mypass123@localhost:27017`
-
-**Spring Boot:** You can add below properties in `application.properties` file to connect `MongoDB`.
-
-```
-spring.data.mongodb.host=localhost
-spring.data.mongodb.port=27017
-spring.data.mongodb.username=testuser
-spring.data.mongodb.password=mypass123
-spring.data.mongodb.database=BookStore
-spring.data.mongodb.authentication-database=admin
-```
+**Get key** `GET testkey`
