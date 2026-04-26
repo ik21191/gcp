@@ -32,7 +32,7 @@ services:
     volumes:
       #- ./logstash/config/:/usr/share/logstash/config # Mount the volume with Logstash configuration
       - ./logstash/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro # Mount the volume for pipeline configuration
-      - ./spring/spring.log:/my-log/spring.log # Mount the volume for pipeline configuration
+      - ./spring/spring.log:/my-log/spring.log # The Elasticsearch index will fetch data from this file.
     ports:
       - "5044:5044"
       - "9600:9600"
