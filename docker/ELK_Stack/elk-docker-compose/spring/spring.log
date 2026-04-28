@@ -41,4 +41,3 @@
 2025-03-28 10:56:38.107  WARN 1 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2025-03-28 10:56:38.566  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2025-03-28 10:56:38.578  INFO 1 --- [main] com.rest.order.OrderServiceApplication   : Started OrderServiceApplication in 8.073 seconds (JVM running for 8.829)
-2025-03-28 10:56:38.578  INFO 1 --- [main] com.rest.order.OrderServiceApplication   : Hello sample log
